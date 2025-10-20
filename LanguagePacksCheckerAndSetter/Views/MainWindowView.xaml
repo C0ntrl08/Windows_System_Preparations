@@ -1,0 +1,38 @@
+﻿
+    
+<Window x:Class="LanguagePacksCheckerAndSetter.Views.MainWindowView"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:vm="clr-namespace:LanguagePacksCheckerAndSetter.ViewModels"
+        xmlns:views="clr-namespace:LanguagePacksCheckerAndSetter.Views"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:utils="clr-namespace:LanguagePacksCheckerAndSetter.Utilities"
+        xmlns:local="clr-namespace:LanguagePacksCheckerAndSetter"
+        mc:Ignorable="d"
+        Title="Language Packs Checker and Installer" Height="600" Width="900">
+
+    <Window.Resources>
+        <utils:InverseBooleanConverter x:Key="InverseBooleanConverter"/>
+    </Window.Resources>
+    
+    <Window.DataContext>
+        <vm:MainWindowViewModel/>
+    </Window.DataContext>
+
+    <Grid>
+        <TabControl SelectedIndex="{Binding SelectedTabIndex}"
+            IsEnabled="{Binding IsBusy, Converter={StaticResource InverseBooleanConverter}}">
+            <TabItem Header="Install">
+                <views:InstallView/>
+            </TabItem>
+            <TabItem Header="Check">
+                <views:CheckView/>
+            </TabItem>
+            <TabItem Header="Delete">
+                <views:DeleteView/>
+            </TabItem>
+        </TabControl>
+    </Grid>
+    
+</Window>
