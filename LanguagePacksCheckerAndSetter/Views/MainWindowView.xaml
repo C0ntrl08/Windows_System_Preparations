@@ -10,7 +10,8 @@
         xmlns:utils="clr-namespace:LanguagePacksCheckerAndSetter.Utilities"
         xmlns:local="clr-namespace:LanguagePacksCheckerAndSetter"
         mc:Ignorable="d"
-        Title="Language Packs Checker and Installer" Height="600" Width="900">
+        Title="Language Packs Checker and Installer" Height="600" Width="900"
+        WindowStartupLocation="CenterScreen">
 
     <Window.Resources>
         <utils:InverseBooleanConverter x:Key="InverseBooleanConverter"/>

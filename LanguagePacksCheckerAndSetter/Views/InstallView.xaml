@@ -4,15 +4,79 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:LanguagePacksCheckerAndSetter.Views"
+             xmlns:models="clr-namespace:LanguagePacksCheckerAndSetter.Models"
              xmlns:vm="clr-namespace:LanguagePacksCheckerAndSetter.ViewModels"
+             xmlns:utils="clr-namespace:LanguagePacksCheckerAndSetter.Utilities"
              mc:Ignorable="d">
+    
     <UserControl.DataContext>
         <vm:InstallViewModel/>
     </UserControl.DataContext>
-    
-    <Grid>
-        <TextBlock Text="Install Language Packs (Coming Soon)" VerticalAlignment="Center"
-                   HorizontalAlignment="Center" FontSize="16" FontWeight="Bold">
-        </TextBlock>
+
+    <UserControl.Resources>
+        <utils:InverseBooleanConverter x:Key="InverseBooleanConverter"/>
+    </UserControl.Resources>
+
+    <Grid Margin="10">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="2*"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <!-- Folder Selection -->
+        <StackPanel Orientation="Horizontal" Grid.Row="0" Margin="0,0,0,10">
+            <Button Content="Browse Folder" Command="{Binding BrowseFolderCommand}" Width="120"/>
+            <Button Content="Install Selected" Command="{Binding InstallSelectedCommand}" Width="150" Margin="10,0,0,0"/>
+            <Button Content="Select All" Command="{Binding SelectAllCommand}" Width="100" Margin="10,0,0,0"/>
+            <Button Content="Deselect All" Command="{Binding DeselectAllCommand}" Width="100" Margin="10,0,0,0"/>
+        </StackPanel>
+
+        <!-- CAB Files List -->
+        <DataGrid Grid.Row="1"
+                  ItemsSource="{Binding AvailablePacks}"
+                  AutoGenerateColumns="False"
+                  CanUserAddRows="False"
+                  HeadersVisibility="Column"
+                  ColumnHeaderHeight="30"
+                  IsEnabled="{Binding IsBusy, Converter={StaticResource InverseBooleanConverter}}">
+
+            <DataGrid.Columns>
+                <!-- Checkbox column (TemplateColumn so IsSelected updates immediately) -->
+                <DataGridTemplateColumn Header="Select" MinWidth="80" Width="80">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <CheckBox IsChecked="{Binding IsSelected, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                          HorizontalAlignment="Center"
+                          VerticalAlignment="Center"/>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+
+                <!-- Package Identity column -->
+                <DataGridTextColumn Binding="{Binding PackageIdentity}"
+                        Header="Package Identity"
+                        MinWidth="200"
+                        Width="*"
+                        IsReadOnly="True"/>
+
+                <!-- File Path column -->
+                <DataGridTextColumn Binding="{Binding FilePath}"
+                        Header="File Path"
+                        MinWidth="300"
+                        Width="2*"
+                        IsReadOnly="True"/>
+            </DataGrid.Columns>
+        </DataGrid>
+
+        <!-- Log Window -->
+        <ListBox Grid.Row="2" ItemsSource="{Binding OperationLog}">
+            <ListBox.ItemTemplate>
+                <DataTemplate DataType="{x:Type models:LogEntry}">
+                    <TextBlock Text="{Binding Message}" Foreground="{Binding Foreground}"/>
+                </DataTemplate>
+            </ListBox.ItemTemplate>
+        </ListBox>
     </Grid>
+
 </UserControl>
