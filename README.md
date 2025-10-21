@@ -7,6 +7,9 @@ The tool provides a simple UI with logging and color‑coded status messages so 
 
 ## ✨ Features
 
+- **Install Lancguage Packs from a folder**
+  **Coming Soon**
+
 - **Check installed language packs**  
   Select from a dropdown or type a language code (e.g. `en-US`, `de-DE`) and view all installed packages.
 
@@ -41,7 +44,7 @@ The tool provides a simple UI with logging and color‑coded status messages so 
 
    **cd** to the cloned repository folder
 2. Open the solution in Visual Studio 2022 (or later)
-3. Build and Rin the Project
+3. Build and Run the Project
 
 ## 📝 Repository Structure
  ```bash

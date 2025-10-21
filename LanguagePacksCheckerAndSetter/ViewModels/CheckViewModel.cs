@@ -38,7 +38,7 @@ namespace LanguagePacksCheckerAndSetter.ViewModels
         public ObservableCollection<string> SupportedLanguages { get; private set; }
     = new ObservableCollection<string>
 {
-    "en-US", "de-DE", "fr-FR", "it-IT", "ja-JP", "sv-SE", "zh-CN"
+    "en-US","de-DE", "fr-FR", "it-IT", "ja-JP", "sv-SE", "zh-CN"
 };
 
         public ObservableCollection<LanguagePackModel> InstalledPackages { get; private set; }
