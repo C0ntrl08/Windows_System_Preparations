@@ -5,6 +5,7 @@ using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Diagnostics;
 using System.IO;
+using System.Management.Automation;
 using System.Runtime.CompilerServices;
 using System.Windows.Data;
 using System.Windows.Input;
@@ -94,12 +95,12 @@ namespace LanguagePacksCheckerAndSetter.ViewModels
         #region Constructors
         public InstallViewModel()
         {
-            
+
             BrowseFolderCommand = new RelayCommand(async _ => await ExecuteBrowseFolderAsync(), _ => !IsBusy);
             InstallSelectedCommand = new RelayCommand(async _ => await ExecuteInstallAsync(), _ => !IsBusy && HasSelectedPacks);
 
-            SelectAllCommand = new RelayCommand(_ => SetSelection(true),_ => !IsBusy && AvailablePacks.Count > 0);
-            DeselectAllCommand = new RelayCommand(_ => SetSelection(false),_ => !IsBusy && AvailablePacks.Count > 0);
+            SelectAllCommand = new RelayCommand(_ => SetSelection(true), _ => !IsBusy && AvailablePacks.Count > 0);
+            DeselectAllCommand = new RelayCommand(_ => SetSelection(false), _ => !IsBusy && AvailablePacks.Count > 0);
             //SelectAllCommand = new RelayCommand(_ => SetSelection(true), _ => AvailablePacks.Count > 0);
             //DeselectAllCommand = new RelayCommand(_ => SetSelection(false), _ => AvailablePacks.Count > 0);
 
@@ -215,12 +216,19 @@ namespace LanguagePacksCheckerAndSetter.ViewModels
                     var processStartInfo = new ProcessStartInfo
                     {
                         FileName = "dism.exe",
-                        Arguments = $"/online /Add-Package /PackagePath:\"{pack.FilePath}\" /Quiet /NoRestart",
+                        //Arguments = $"/online /Add-Package /PackagePath:\"{pack.FilePath}\" /Quiet /NoRestart",
+                        Arguments = $"/online /Add-Package /PackagePath:\"{pack.FilePath}\"",
                         RedirectStandardOutput = true,
                         RedirectStandardError = true,
                         UseShellExecute = false,
                         CreateNoWindow = true
                     };
+
+                    OperationLog.Add(new LogEntry
+                    {
+                        Message = $"Running: dism.exe {processStartInfo.Arguments}",
+                        Foreground = Brushes.Gray
+                    });
 
                     using (var process = new Process { StartInfo = processStartInfo })
                     {
@@ -228,6 +236,7 @@ namespace LanguagePacksCheckerAndSetter.ViewModels
                         string output = await process.StandardOutput.ReadToEndAsync();
                         string error = await process.StandardError.ReadToEndAsync();
                         process.WaitForExit();
+
 
                         if (process.ExitCode == 0)
                         {
@@ -268,6 +277,7 @@ namespace LanguagePacksCheckerAndSetter.ViewModels
                 IsBusy = false;
             }
         }
+
         private void SetSelection(bool isSelected)
         {
             foreach (var pack in AvailablePacks)

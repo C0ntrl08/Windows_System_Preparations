@@ -32,8 +32,9 @@ The tool provides a simple UI with logging and color‑coded status messages so 
 ## 🛠️ Tech Stack
 
 - **.NET 8** (WPF)  
-- **MVVM pattern**  
+- **MVVM Design-Pattern**  
 - **DISM.exe** integration for package management
+- **Powershell**
 
 ---
 
