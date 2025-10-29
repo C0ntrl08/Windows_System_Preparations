@@ -33,6 +33,9 @@
             <TabItem Header="Delete">
                 <views:DeleteView/>
             </TabItem>
+            <TabItem Header="Refresh Language Settings">
+                <views:RefreshLanguageView/>
+            </TabItem>
         </TabControl>
     </Grid>
     

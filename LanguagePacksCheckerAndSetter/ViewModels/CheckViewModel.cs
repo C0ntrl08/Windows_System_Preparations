@@ -1,4 +1,5 @@
-﻿using LanguagePacksCheckerAndSetter.Models;
+﻿using LanguagePacksCheckerAndSetter.Configuration;
+using LanguagePacksCheckerAndSetter.Models;
 using LanguagePacksCheckerAndSetter.Utilities;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
@@ -90,11 +91,12 @@ namespace LanguagePacksCheckerAndSetter.ViewModels
         // Constructors
         public CheckViewModel()
         {
-            SupportedLanguages = new ObservableCollection<string>
-            {
-                "en-US", "de-DE", "fr-FR", "it-IT", "ja-JP", "sv-SE", "zh-CN"
-            };
+            //SupportedLanguages = new ObservableCollection<string>
+            //{
+            //    "en-US", "de-DE", "fr-FR", "it-IT", "ja-JP", "sv-SE", "zh-CN"
+            //};
 
+            SupportedLanguages = new ObservableCollection<string>(LanguagePackConfig.SupportedLanguages);
             InstalledPackages = new ObservableCollection<LanguagePackModel>();
             CheckCommand = new RelayCommand(async _ => await ExecuteCheckAsync(), _ => !IsBusy);
             

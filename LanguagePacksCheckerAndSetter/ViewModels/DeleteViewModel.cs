@@ -1,4 +1,5 @@
-﻿using LanguagePacksCheckerAndSetter.Models;
+﻿using LanguagePacksCheckerAndSetter.Configuration;
+using LanguagePacksCheckerAndSetter.Models;
 using LanguagePacksCheckerAndSetter.Utilities;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
@@ -74,10 +75,11 @@ namespace LanguagePacksCheckerAndSetter.ViewModels
 
         public DeleteViewModel()
         {
-            SupportedLanguages = new ObservableCollection<string>
-            {
-                "en-US", "de-DE", "fr-FR", "it-IT", "ja-JP", "sv-SE", "zh-CN"
-            };
+            //SupportedLanguages = new ObservableCollection<string>
+            //{
+            //    "en-US", "de-DE", "fr-FR", "it-IT", "ja-JP", "sv-SE", "zh-CN"
+            //};
+            SupportedLanguages = new ObservableCollection<string>(LanguagePackConfig.SupportedLanguages);
 
             DeleteCommand = new RelayCommand(async _ => await ExecuteDeleteAsync(), _ => !IsBusy);
         }
